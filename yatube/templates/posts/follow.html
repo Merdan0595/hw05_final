@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Подписки{% endblock %}
+{% block content %}
+  {% include 'posts/includes/switcher.html' %}
+  {% for post in page_obj %}  
+    {% include 'posts/includes/post_card.html' with show_group_link=True show_profile_link=True %}
+  {% endfor %}
+  {% include 'posts/includes/paginator.html' %}
+{% endblock %}
