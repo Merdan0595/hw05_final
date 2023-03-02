@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from ..models import Group, Post
-from ..models import SIGNS_OF_TEXT
+from ..models import Group, Post, SIGNS_OF_TEXT
+
 
 User = get_user_model()
 

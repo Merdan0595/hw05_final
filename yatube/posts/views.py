@@ -2,8 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from .utils import get_page_number
-from .models import Post, Group
-from .models import User, Follow
+from .models import Post, Group, User, Follow
 from .forms import PostForm, CommentForm
 
 
@@ -33,7 +32,6 @@ def profile(request, username):
     following = False
     page_obj = get_page_number(posts, request)
     if (request.user.is_authenticated
-       and request.user.username != username
        and Follow.objects.filter(user=request.user).filter(author=author)):
         following = True
     context = {
@@ -47,10 +45,7 @@ def profile(request, username):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     comments = post.comments.all()
-    form = CommentForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('posts:post_detail', post_id=post_id)
+    form = CommentForm()
     context = {
         'form': form,
         'comments': comments,

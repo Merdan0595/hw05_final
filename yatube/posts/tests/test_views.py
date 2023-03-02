@@ -68,7 +68,6 @@ class YatubePagesTests(TestCase):
 
     def setUp(self):
         self.guest_client = Client()
-        self.user = YatubePagesTests.user
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
 
@@ -192,13 +191,17 @@ class YatubePagesTests(TestCase):
         )
         self.assertNotEqual(response.content, response_after_delete.content)
 
-    def test_profile_follow_and_unfollow(self):
+    def test_profile_follow(self):
         another_user = User.objects.create_user(username='kuku')
         follow_count = Follow.objects.count()
         self.authorized_client.get(reverse(
             'posts:profile_follow',
             kwargs={'username': another_user.username}))
         self.assertEqual(Follow.objects.count(), follow_count + 1)
+
+    def test_profile_unfollow(self):
+        another_user = User.objects.create_user(username='kuku')
+        follow_count = Follow.objects.count()
         self.authorized_client.get(reverse(
             'posts:profile_unfollow',
             kwargs={'username': another_user.username}))
