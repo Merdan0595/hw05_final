@@ -202,6 +202,10 @@ class YatubePagesTests(TestCase):
     def test_profile_unfollow(self):
         another_user = User.objects.create_user(username='kuku')
         follow_count = Follow.objects.count()
+        Follow.objects.create(
+            user=self.user,
+            author=another_user
+        )
         self.authorized_client.get(reverse(
             'posts:profile_unfollow',
             kwargs={'username': another_user.username}))
@@ -214,9 +218,10 @@ class YatubePagesTests(TestCase):
             text='Эназер текст',
             group=self.group
         )
-        self.authorized_client.get(reverse(
-            'posts:profile_follow',
-            kwargs={'username': another_user.username}))
+        Follow.objects.create(
+            user=self.user,
+            author=another_user
+        )
         response = self.authorized_client.get(reverse(
             'posts:follow_index'
         ))

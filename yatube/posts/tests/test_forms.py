@@ -132,7 +132,7 @@ class PostFormTests(TestCase):
             data=self.form_data,
             follow=True
         )
-
+        another_post.refresh_from_db()
         self.assertTrue(another_post.text != self.form_data['text'])
 
     def test_authorized_client_create_comment(self):
